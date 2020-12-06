@@ -1,0 +1,93 @@
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ CreateTaskForm.media }}            {# Adds date-picker required JS and CSS #}
+
+<div class="container">
+    <h1> Project Detail - [{{ project.project_name }}]</h1>
+    <div class="d-flex">
+        <div class="ml-auto">
+            <a href="{% url 'project_manager:create_project' %}">
+                <button type="button" class="btn btn-info" style="align: right;">
+                    Create New Project
+                </button>
+            </a>
+            <a href="{% url 'project_manager:create_task' %}">
+                <button type="button" class="btn btn-primary" style="align: right;">
+                    Create New Task
+                </button>
+            </a>
+        </div>
+    </div>
+    </br>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">
+                <a href="{% url 'project_manager:index' %}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ project.project_name }}</li>
+        </ol>
+    </nav>
+    {% comment %} <div>
+        <img src="{{ project.avatar.url}}" width="20" height="20"/>
+        <a href="{% url 'project_manager:project_detail' project.id %}">{{ project.project_name }}</a> 
+        <a href="{% url 'project_manager:delete_project' project.id %}">delete</a>
+        <a href="{% url 'project_manager:edit_project' project.id %}">edit</a>
+    </div> {% endcomment %} 
+    </br>
+        <div class="alert alert-secondary" role="alert">
+            <div style=" text-align:right">
+                Created at: {{ project.create_date }} | 
+                <a href="{% url 'project_manager:edit_project' project.id %}">[edit]</a> | 
+                <a href="{% url 'project_manager:delete_project' project.id %}">[delete]</a> | 
+            </div>
+            <h5 class="alert-heading"> Description</h5>
+                <p>{{ project.description }}</p>
+                <hr>
+            </div>
+    </br>
+    {% if tasks %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Task Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Edit Option</th>
+                    <th scope="col">Delete Option</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for task in tasks %}
+            <tr>
+                <th scope="row">1</th>
+                <td>
+                    {{ task.title }}
+                </td>
+                <td>
+                    {{ task.description }}
+                </td>
+                <td>
+                    {{ task.start_date }}
+                </td>
+                <td>
+                    {{ task.end_date }}
+                </td>
+                <td>
+                     <a href="{% url 'project_manager:edit_task' project.id task.id%}">edit</a>
+                </td>
+                <td>
+                    <a href="{% url 'project_manager:delete_task' project.id task.id%}">delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% else %}
+        <p>No Task are assigned to this project.</p>
+    {% endif %}
+</div>

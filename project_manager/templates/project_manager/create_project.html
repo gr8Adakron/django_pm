@@ -1,0 +1,19 @@
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ CreateProjectForm.media }}            {# Adds date-picker required JS and CSS #}
+
+
+<div class="container" style="margin-top: 5%">
+    <h1> 
+        Create Project
+    </h1>
+        <a href="{% url 'project_manager:index' %}">Home</a>
+        <form method="post" enctype="multipart/form-data"  action="{{ request.path }}" >
+            {% csrf_token %}
+                <table>
+                    {{CreateProjectForm}}
+                </table>
+            <input type="submit" value="Submit Form"/>
+        </form>
+</div>

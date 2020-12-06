@@ -1,0 +1,64 @@
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ CreateProjectForm.media }}            {# Adds date-picker required JS and CSS #}
+
+<div class="container">
+    <h1> 
+        Project List 
+    </h1>
+    <div class="d-flex">
+        <div class="ml-auto">
+            <a href="{% url 'project_manager:create_project' %}">
+                <button type="button" class="btn btn-info" style="align: right;">
+                    Create New Project
+                </button>
+            </a>
+        </div>
+    </div>
+    </br>
+{% if projects_list %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">Project Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Detail View</th>
+            <th scope="col">Edit Option</th>
+            <th scope="col">Delete Option</th>
+            </tr>
+        </thead>
+    <tbody>
+    {% for project in projects_list %}
+        <tr>
+            <th scope="row">
+                1
+            </th>
+            <td> 
+                <img src="{{ project.avatar.url}}" width="45" height="40"/>
+            </td>
+            <td>
+                {{ project.project_name }}
+            </td>
+            <td>
+                {{ project.description }}
+            </td>
+            <td>
+               <a href="{% url 'project_manager:project_detail' project.id %}">detail</a>
+            </td>
+            <td>
+               <a href="{% url 'project_manager:edit_project' project.id %}">edit</a>
+            </td>
+            <td>
+               <a href="{% url 'project_manager:delete_project' project.id %}">delete</a>
+            </td>
+        </tr>   
+    {% endfor %}
+    </tbody>
+    </table>   
+{% else %}
+    <p>No Projects are available.</p>
+{% endif %}
+</div>
